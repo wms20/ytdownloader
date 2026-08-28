@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Shorts Downloader - Free HD Video & MP3 Downloader</title>
+  <meta name="description" content="Download YouTube Shorts and videos in High Quality 1080p, 720p MP4 & MP3 Audio for free. Fast, easy, no registration required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Ambient Lights -->
+  <div class="glow-bg top-left"></div>
+  <div class="glow-bg bottom-right"></div>
+
+  <!-- Header Navigation -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-play"></i></div>
+        <span class="logo-text">Shorts<span>Downloader</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#downloader" class="nav-link active">Downloader</a>
+        <a href="#how-it-works" class="nav-link">How to Use</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Server Online</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Downloader Section -->
+  <section id="downloader" class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Fast, Free & Unlimited Downloads</span>
+      </div>
+      <h1 class="hero-title">YouTube Shorts Downloader</h1>
+      <p class="hero-subtitle">
+        Download YouTube Shorts & videos in High Definition <strong>1080p Full HD</strong>, 720p MP4, or convert to high quality <strong>320kbps MP3 Audio</strong> instantly.
+      </p>
+
+      <!-- URL Input Card -->
+      <div class="input-card">
+        <form id="download-form" class="url-form">
+          <div class="input-wrapper">
+            <i class="fa-brands fa-youtube input-icon"></i>
+            <input 
+              type="text" 
+              id="url-input" 
+              placeholder="Paste YouTube Shorts or Video URL here (e.g. https://youtube.com/shorts/...)" 
+              autocomplete="off" 
+              required
+            >
+            <button type="button" id="clear-btn" class="icon-btn clear-btn" title="Clear input" style="display: none;">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button type="button" id="paste-btn" class="btn btn-secondary paste-btn">
+              <i class="fa-regular fa-clipboard"></i>
+              <span>Paste</span>
+            </button>
+          </div>
+          <button type="submit" id="submit-btn" class="btn btn-primary submit-btn">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+            <span>Get Download Links</span>
+          </button>
+        </form>
+
+        <div class="demo-links">
+          <span class="demo-label">Try a sample link:</span>
+          <button type="button" class="demo-chip" data-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            <i class="fa-solid fa-video"></i> Sample Video
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-box" class="loading-box" style="display: none;">
+        <div class="spinner"></div>
+        <p class="loading-title">Fetching video information...</p>
+        <p class="loading-desc">Extracting high quality video stream and audio formats</p>
+      </div>
+
+      <!-- Error Toast / Box -->
+      <div id="error-box" class="error-box" style="display: none;">
+        <i class="fa-solid fa-circle-exclamation error-icon"></i>
+        <div class="error-content">
+          <p id="error-message" class="error-text">Something went wrong.</p>
+        </div>
+        <button type="button" id="error-close-btn" class="error-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Video Result Card -->
+      <div id="result-box" class="result-card" style="display: none;">
+        <div class="video-info-wrapper">
+          <div class="thumbnail-wrapper">
+            <img id="res-thumbnail" src="" alt="Video Thumbnail">
+            <span id="res-type-badge" class="badge short-badge"><i class="fa-solid fa-bolt"></i> Short</span>
+            <span id="res-duration" class="duration-badge">00:00</span>
+          </div>
+          <div class="video-meta">
+            <h2 id="res-title" class="video-title">Video Title</h2>
+            <div class="meta-row">
+              <span class="meta-item"><i class="fa-regular fa-user"></i> <span id="res-author">Channel Name</span></span>
+            </div>
+
+            <!-- Tabs: MP4 Video / MP3 Audio -->
+            <div class="format-tabs">
+              <button type="button" class="tab-btn active" data-tab="video">
+                <i class="fa-solid fa-film"></i> Video (MP4)
+              </button>
+              <button type="button" class="tab-btn" data-tab="audio">
+                <i class="fa-solid fa-music"></i> Audio (MP3)
+              </button>
+            </div>
+
+            <!-- Format List: Video -->
+            <div id="tab-content-video" class="tab-content active">
+              <div class="format-list" id="video-format-list">
+                <!-- Dynamically Rendered -->
+              </div>
+            </div>
+
+            <!-- Format List: Audio -->
+            <div id="tab-content-audio" class="tab-content">
+              <div class="format-list" id="audio-format-list">
+                <!-- Dynamically Rendered -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Download Section -->
+  <section id="how-it-works" class="section alt-bg">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">How to Download YouTube Shorts</h2>
+        <p class="section-subtitle">Download your favorite Shorts in just 3 simple steps</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon"><i class="fa-solid fa-link"></i></div>
+          <h3 class="step-title">Copy Short URL</h3>
+          <p class="step-desc">Open YouTube or YouTube Shorts app, click the Share button and copy the video link.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon"><i class="fa-solid fa-paste"></i></div>
+          <h3 class="step-title">Paste in Downloader</h3>
+          <p class="step-desc">Paste the copied URL into the search box above and click "Get Download Links".</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon"><i class="fa-solid fa-download"></i></div>
+          <h3 class="step-title">Download & Save</h3>
+          <p class="step-desc">Select your desired quality (1080p, 720p, MP3) and click Download to save the file instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Why Choose YouTube Shorts Downloader?</h2>
+        <p class="section-subtitle">The fastest and safest online tool for downloading YouTube Shorts & videos</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3 class="feature-title">Ultra Fast Downloads</h3>
+          <p class="feature-desc">High-speed cloud processing delivers instant download links with no delay or bandwidth limits.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+          <h3 class="feature-title">Full HD & 4K Quality</h3>
+          <p class="feature-desc">Download videos in original crisp quality, including 1080p Full HD, 720p, and high quality MP3 audio.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3 class="feature-title">100% Free & Safe</h3>
+          <p class="feature-desc">No accounts, no software installation, and no hidden subscriptions. Completely free and secure.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <h3 class="feature-title">Works on All Devices</h3>
+          <p class="feature-desc">Compatible with Android, iPhone (iOS), Windows, Mac, Linux, iPad, and tablet web browsers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-music"></i></div>
+          <h3 class="feature-title">YouTube to MP3 Converter</h3>
+          <p class="feature-desc">Easily extract audio track from any Short or video to high fidelity MP3 format in 320kbps.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-infinity"></i></div>
+          <h3 class="feature-title">Unlimited Usage</h3>
+          <p class="feature-desc">Download as many Shorts and videos as you want without daily quota restrictions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section alt-bg">
+    <div class="container faq-container">
+      <div class="section-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know about downloading YouTube Shorts</p>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is this YouTube Shorts Downloader free to use?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! Our downloader is 100% free with no hidden charges, registration, or limitations. You can download unlimited Shorts anytime.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How do I download YouTube Shorts on iPhone or iPad?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Simply copy the Short link, open Safari or Chrome on your iOS device, paste the URL on this site, choose your format and tap Download. The file will be saved directly into your Safari Downloads folder or Files app.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I convert YouTube Shorts to MP3 audio?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! When you paste the YouTube Short URL, switch to the <strong>Audio (MP3)</strong> tab to download the audio track in 320kbps high quality.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Where are downloaded videos saved on my device?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Files are automatically saved in your browser's default "Downloads" folder on PC/Mac, or in your device's Gallery / Downloads manager on mobile devices.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Does this downloader save original 1080p quality?</span>
+            <i class="fa-solid fa-chevron-down faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely. We extract the original video stream provided by YouTube up to 1080p Full HD resolution without re-compression or quality loss.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-play"></i></div>
+          <span class="logo-text">Shorts<span>Downloader</span></span>
+        </a>
+        <p class="footer-desc">The ultimate web tool to download YouTube Shorts and videos in MP4 & MP3 format for free.</p>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 YouTube Shorts Downloader. All rights reserved.</p>
+        <p class="disclaimer">Disclaimer: This site is not affiliated with or endorsed by YouTube or Google LLC.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

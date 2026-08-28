@@ -1,0 +1,26 @@
+{
+  "name": "youtube-shorts-downloader",
+  "version": "1.0.0",
+  "description": "Download YouTube Shorts and videos in high quality MP4 and MP3 for free.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "youtube",
+    "shorts",
+    "downloader",
+    "mp4",
+    "mp3",
+    "video-downloader"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  }
+}
